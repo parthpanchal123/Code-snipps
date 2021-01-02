@@ -4,3 +4,11 @@
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
 }
+
+a{
+    color: white !important;
+}
+
+a:hover {
+   color :#f4f4f4b7 !important;
+}

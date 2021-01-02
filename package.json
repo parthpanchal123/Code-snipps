@@ -2,6 +2,7 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
+  "proxy" : "https://code-snipps.herokuapp.com",
   "dependencies": {
     "@auth0/auth0-react": "^1.2.0",
     "@testing-library/jest-dom": "^5.11.6",

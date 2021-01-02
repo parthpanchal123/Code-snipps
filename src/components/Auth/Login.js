@@ -2,13 +2,14 @@ import React from "react";
 import { Container, Button } from "react-bootstrap";
 import Programmer from "../../assets/programmer.gif";
 import { useAuth0 } from "@auth0/auth0-react";
+import { Redirect } from "react-router";
 
 const Login = () => {
   const { loginWithRedirect, user, isAuthenticated } = useAuth0();
 
   console.log(user, isAuthenticated);
 
-  return (
+  return !user ? (
     <>
       <Container
         className="text-center mt-5"
@@ -44,6 +45,8 @@ const Login = () => {
         </h6>
       </footer>
     </>
+  ) : (
+    <Redirect to="/" />
   );
 };
 

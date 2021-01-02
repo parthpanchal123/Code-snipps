@@ -5,6 +5,7 @@ import { Button, Container, Form, Alert } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import NotificationSystem from "react-notification-system";
 import { Redirect } from "react-router-dom";
+import { CodeSlash } from "react-bootstrap-icons";
 import { useAuth0 } from "@auth0/auth0-react";
 import loadingGIF from "../assets/loading.gif";
 import "../index.css";
@@ -12,7 +13,7 @@ import "../index.css";
 const FormComponent = ({ isFromModal, post, onHide }) => {
   const dispatch = useDispatch();
 
-  const { isAuthenticated, isLoading } = useAuth0();
+  const { isAuthenticated, isLoading, user } = useAuth0();
 
   const notificationSystem = React.createRef();
 
@@ -29,6 +30,7 @@ const FormComponent = ({ isFromModal, post, onHide }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    postData.creator = user.nickname;
 
     setLoading(true);
 
@@ -94,18 +96,18 @@ const FormComponent = ({ isFromModal, post, onHide }) => {
   } else
     return !message ? (
       <Container
-        style={{ marginTop: 20 }}
+        style={{ marginTop: "40px" }}
         className={!isFromModal ? "col-md-4 col-sm-12" : "col-md"}
       >
         {message && <Alert variant="success">Post Created</Alert>}
         {message && setMessage("")}
-        {isFromModal ?? <h2>Create a Memory</h2>}
+        {isFromModal ?? <h2>Create an awesome snippet</h2>}
         <Form onSubmit={(e) => handleSubmit(e)} id="postForm">
           <Form.Group>
             <Form.Label>Title</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Some interesting title"
+              placeholder="Eg : My MongoDb Post model"
               name="title"
               value={postData.title}
               required
@@ -119,7 +121,7 @@ const FormComponent = ({ isFromModal, post, onHide }) => {
             <Form.Label>Message</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Message"
+              placeholder="Eg : This is the schema"
               name="message"
               value={postData.message}
               required
@@ -133,7 +135,7 @@ const FormComponent = ({ isFromModal, post, onHide }) => {
             <Form.Label>Tags</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Tag it"
+              placeholder="Eh : #mongodb , #models (seperated by , )"
               name="tags"
               value={postData.tags}
               required
@@ -142,7 +144,8 @@ const FormComponent = ({ isFromModal, post, onHide }) => {
               }
             />
           </Form.Group>
-
+          <Form.Label>Code snap</Form.Label>
+          <br />
           <FileBase
             type="file"
             required={true}
@@ -155,7 +158,7 @@ const FormComponent = ({ isFromModal, post, onHide }) => {
           />
 
           <Button variant="dark" type="submit" block className="mt-4">
-            Submit
+            Upload <CodeSlash className="ml-1" />
           </Button>
 
           {loading && (

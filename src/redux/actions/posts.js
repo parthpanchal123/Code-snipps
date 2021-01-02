@@ -51,9 +51,9 @@ export const deletePost = (postId) => async (dispatch) => {
   }
 };
 
-export const likePost = (id) => async (dispatch) => {
+export const likePost = (post) => async (dispatch) => {
   try {
-    const { data } = await api.likePost(id);
+    const { data } = await api.likePost(JSON.stringify(post));
 
     dispatch({ type: "LIKE_POST", payload: data });
   } catch (error) {
@@ -61,12 +61,12 @@ export const likePost = (id) => async (dispatch) => {
   }
 };
 
-export const unlikePost = (id) => async (dispatch) => {
-  try {
-    const { data } = await api.unlikePost(id);
+// export const unlikePost = (id) => async (dispatch) => {
+//   try {
+//     const { data } = await api.unlikePost(id);
 
-    dispatch({ type: "UNLIKE_POST", payload: data });
-  } catch (error) {
-    console.log(error.message);
-  }
-};
+//     dispatch({ type: "UNLIKE_POST", payload: data });
+//   } catch (error) {
+//     console.log(error.message);
+//   }
+// };

@@ -2,6 +2,7 @@ import React from "react";
 import { Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
+import { PencilFill, BoxArrowRight } from "react-bootstrap-icons";
 import code from "../assets/code.png";
 
 export const NavBar = () => {
@@ -14,7 +15,7 @@ export const NavBar = () => {
           alt="Logo"
           width="30 "
           height="30"
-          classNameNameName="d-inline-block align-bottom"
+          className="d-inline-block align-bottom"
         />
         <a className="navbar-brand ml-2" href="/">
           Code-snipps
@@ -36,17 +37,15 @@ export const NavBar = () => {
               className="collapse navbar-collapse"
               id="navbarSupportedContent"
             >
-              <Nav className="ml-auto mt-2">
-                <Link
-                  className="nav-link"
-                  to="/addNewMemory"
-                  classNameNameNameName="nav-link"
-                  style={{ textDecorationcolor: "white" }}
-                >
-                  Create a Memory
+              <Nav className="ml-auto mt-2 ">
+                <Link className="nav-link" to="/addNewMemory">
+                  Create a Code-snipp
+                  <PencilFill className="ml-2" />
                 </Link>
+
                 <Link className="nav-link " onClick={() => logout()}>
                   LogOut
+                  <BoxArrowRight className="ml-2" />
                 </Link>
               </Nav>
             </div>

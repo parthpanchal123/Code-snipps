@@ -2,16 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Container, Card, Button } from "react-bootstrap";
 import moment from "moment";
 import loading from "../assets/loading.gif";
-import { Pencil, Trash, Heart } from "react-bootstrap-icons";
+import { Pencil, Trash, HeartFill } from "react-bootstrap-icons";
 import { useSelector } from "react-redux";
 import EditPostModal from "./EditPostModal";
 import { useDispatch } from "react-redux";
-import {
-  deletePost,
-  getPosts,
-  likePost,
-  unlikePost,
-} from "../redux/actions/posts";
+import { deletePost, getPosts, likePost } from "../redux/actions/posts";
 import ModalImage from "react-modal-image";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Redirect } from "react-router-dom";
@@ -61,9 +56,8 @@ const Posts = () => {
                   style={{ width: "20rem", margin: "10px" }}
                   className="shadow p-0 mb-5 bg-white rounded"
                 >
-                  <div style={{ objectFit: "fill", backgroundSize: "cover" }}>
+                  <div className="text-center">
                     <ModalImage
-                      // className="card-img-top"
                       small={post.selectedFile}
                       medium={post.selectedFile}
                       alt={post.title}
@@ -83,7 +77,7 @@ const Posts = () => {
                     </small>
                     <br />
                     <small className="text-muted font-italic">
-                      {isLoading ? "" : user.name}
+                      {` - By ${post.creator}`}
                     </small>
 
                     <div
@@ -91,38 +85,61 @@ const Posts = () => {
                         display: "flex",
                         flexDirection: "row",
                         justifyContent: "flex-end",
+                        marginTop: "1px",
                       }}
                     >
+                      {!isLoading
+                        ? post.creator === user.nickname && (
+                            <>
+                              <Button
+                                variant="outline-primary"
+                                className="mr-2"
+                                onClick={() => setModalShow(true)}
+                              >
+                                <Pencil />
+                              </Button>
+                              <Button
+                                variant="outline-danger"
+                                className="mr-2"
+                                onClick={() => {
+                                  setCurrentId(post._id);
+                                  dispatch(deletePost(post._id));
+                                }}
+                              >
+                                <Trash />
+                              </Button>
+                            </>
+                          )
+                        : ""}
+
                       <Button
-                        variant="outline-primary"
-                        className="mr-2"
-                        onClick={() => setModalShow(true)}
-                      >
-                        <Pencil />
-                      </Button>
-                      <Button
-                        variant="outline-danger"
-                        className="mr-2"
+                        variant={
+                          !isLoading
+                            ? post.likes.includes(user.email)
+                              ? "info"
+                              : "outline-info"
+                            : ""
+                        }
                         onClick={() => {
-                          setCurrentId(post._id);
-                          dispatch(deletePost(post._id));
-                        }}
-                      >
-                        <Trash />
-                      </Button>
-                      <Button
-                        variant={liked ? "info" : "outline-info"}
-                        onClick={() => {
-                          setLiked(!liked);
-                          if (!liked) {
-                            dispatch(likePost(post._id));
-                          } else {
-                            dispatch(unlikePost(post._id));
-                          }
+                          const c_post = {
+                            id: post._id,
+                            email: user.email,
+                          };
+                          dispatch(likePost(c_post));
+
+                          // setLiked(!liked);
+                          // if (!liked) {
+                          // const c_post = {
+                          //   id: post._id,
+                          //   email: user.email,
+                          // };
+                          // dispatch(likePost(c_post));
+                          // } else {
+                          // }
                         }}
                       >
                         <span className="mr-1">{post.likeCount}</span>
-                        <Heart />
+                        <HeartFill />
                       </Button>
                     </div>
                   </Card.Footer>
