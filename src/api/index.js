@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const URL = "https://code-snipps.herokuapp.com/posts";
+const URL = "https://code-memories.herokuapp.com/posts";
 export const fetchPosts = async () => await axios.get(URL);
 export const createPost = async (newPost) => await axios.post(URL, newPost);
 export const updatePost = async (postId, updatedPost) =>
