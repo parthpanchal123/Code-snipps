@@ -11,6 +11,10 @@ import App from "./App";
 
 dotenv.config();
 
+if (process.env.NODE_ENV !== "development") {
+  console.log = () => {};
+}
+
 const store = createStore(rootReducer, compose(applyMiddleware(thunk)));
 ReactDom.render(
   <Auth0Provider
