@@ -8,6 +8,10 @@ import Login from "./components/Auth/Login";
 import ProtectedRoute from "./components/Auth/ProtectedRoute";
 import { Route, Switch } from "react-router-dom";
 
+if (process.env === 'production') {
+  console.log = function () {};
+}
+
 const App = () => {
   return (
     <>
