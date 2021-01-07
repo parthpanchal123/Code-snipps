@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import FileBase from "react-file-base64";
 import { createPost, updatePost } from "../redux/actions/posts";
-import { Button, Container, Form, Alert } from "react-bootstrap";
+import { Button, Container, Form } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import NotificationSystem from "react-notification-system";
 import { Redirect } from "react-router-dom";
@@ -37,8 +37,43 @@ const FormComponent = ({ isFromModal, post, onHide }) => {
 
     const notification = notificationSystem.current;
 
-    isFromModal
-      ? dispatch(updatePost(post._id, postData)).then(() => {
+    if (isFromModal) {
+      dispatch(updatePost(post._id, postData)).then(() => {
+        setLoading(false);
+        notification.addNotification({
+          level: "success",
+          autoDismiss: 3,
+          position: "br",
+          children: (
+            <div>
+              <h6>Post updated successfully!</h6>
+            </div>
+          ),
+        });
+      });
+
+      setTimeout(() => {
+        onHide();
+        clearTimeout();
+      }, 2000);
+    }
+
+    if (!isFromModal) {
+      if (!postData.selectedFile) {
+        notification.addNotification({
+          level: "error",
+          autoDismiss: 3,
+          position: "br",
+          children: (
+            <div>
+              <h6>Please upload a valid code snippet image !</h6>
+            </div>
+          ),
+        });
+        setLoading(false);
+      } else {
+        dispatch(createPost(postData)).then(() => {
+          setLoading(false);
           notification.addNotification({
             // message: "Post created successfully !",
             level: "success",
@@ -46,62 +81,28 @@ const FormComponent = ({ isFromModal, post, onHide }) => {
             position: "br",
             children: (
               <div>
-                <h6>Post updated successfully!</h6>
+                <h6>Post created successfully!</h6>
               </div>
             ),
           });
-
-          setLoading(false);
           setTimeout(() => {
-            onHide();
+            setMessage("Post created successfully !");
             clearTimeout();
           }, 2000);
-        })
-      : dispatch(createPost(postData)).then(() => {
-          if (!postData.selectedFile) {
-            setLoading(false);
-            notification.addNotification({
-              // message: "Post created successfully !",
-              level: "error",
-              autoDismiss: 3,
-              position: "br",
-              children: (
-                <div>
-                  <h6>Please upload a code snippet image !</h6>
-                </div>
-              ),
-            });
-          } else {
-            setLoading(false);
-            notification.addNotification({
-              // message: "Post created successfully !",
-              level: "success",
-              autoDismiss: 3,
-              position: "br",
-              children: (
-                <div>
-                  <h6>Post created successfully!</h6>
-                </div>
-              ),
-            });
-            setTimeout(() => {
-              setMessage("Post created successfully !");
-              clearTimeout();
-            }, 2000);
-          }
         });
+      }
+    }
   };
 
   if (!isAuthenticated && !isLoading) {
     return <Redirect to="/login" />;
   } else
     return !message ? (
-      <Fade left>
+      <Fade>
         <Container
-          style={{ marginTop: "40px" }}
+          style={{ marginTop: "30px", height: "100%vh" }}
           className={!isFromModal ? "col-md-4 col-sm-8" : "col-lg"}
         >
-          {message && <Alert variant="success">Post Created</Alert>}
           {message && setMessage("")}
           {isFromModal ?? <h2>Create an awesome snippet post 😎</h2>}
           <Form onSubmit={(e) => handleSubmit(e)} id="postForm">
@@ -137,7 +138,7 @@ const FormComponent = ({ isFromModal, post, onHide }) => {
               <Form.Label>Tags</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Eh : #mongodb , #models (seperated by , )"
+                placeholder="Eg : #mongodb , #models (seperated by , )"
                 name="tags"
                 value={postData.tags}
                 required
@@ -154,9 +155,17 @@ const FormComponent = ({ isFromModal, post, onHide }) => {
               multiple={false}
               name="selectedFile"
               value={postData.selectedFile}
-              onDone={({ base64 }) =>
-                setPostData({ ...postData, selectedFile: base64 })
-              }
+              onDone={(data) => {
+                console.log(data);
+                if (
+                  data.type === "image/jpeg" ||
+                  data.type === "image/jpg" ||
+                  data.type === "image/png"
+                ) {
+                  console.log("Yes");
+                  setPostData({ ...postData, selectedFile: data.base64 });
+                }
+              }}
             />
 
             <Button variant="dark" type="submit" block className="mt-4">

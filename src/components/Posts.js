@@ -83,42 +83,41 @@ const Posts = () => {
             </Container>
           </TransitionGroup>
         ) : (
-          <TransitionGroup>
-            <div
-              style={{
-                display: "flex",
-                flexWrap: "wrap",
-                flexDirection: "row",
-                justifyContent: "flex-start",
-                alignItems: "flex-start",
-                margin: "20px",
-              }}
-            >
-              {posts.map((post) => (
-                <div key={post._id}>
-                  <Card
-                    style={{ width: "20rem", margin: "10px" }}
-                    className="shadow p-0 mb-5 bg-white rounded"
-                    id={"fade-in"}
-                  >
-                    <div className="text-center" id={"imgdiv"}>
-                      <ModalImage
-                        small={post.selectedFile}
-                        medium={post.selectedFile}
-                        alt={post.title}
-                      />
-                    </div>
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "flex-start",
+              margin: "20px",
+            }}
+          >
+            {posts.map((post) => (
+              <div key={post._id}>
+                <Card
+                  style={{ width: "20rem", margin: "10px" }}
+                  className="shadow p-0 mb-5 bg-white rounded"
+                  id={"fade-in"}
+                >
+                  <div className="text-center" id={"imgdiv"}>
+                    <ModalImage
+                      small={post.selectedFile}
+                      medium={post.selectedFile}
+                      alt={post.title}
+                    />
+                  </div>
 
-                    <Card.Body>
-                      <Card.Text style={{ fontWeight: "500" }}>
-                        {post.tags}
-                      </Card.Text>
+                  <Card.Body>
+                    <Card.Text style={{ fontWeight: "500" }}>
+                      {post.tags}
+                    </Card.Text>
 
-                      <Card.Title>{post.title}</Card.Title>
-                      <Card.Text>{post.message}</Card.Text>
-                    </Card.Body>
-                    <Card.Footer>
-                      {/* <img
+                    <Card.Title>{post.title}</Card.Title>
+                    <Card.Text>{post.message}</Card.Text>
+                  </Card.Body>
+                  <Card.Footer>
+                    {/* <img
                       src={
                         !isLoading
                           ? user.gravatar
@@ -126,87 +125,86 @@ const Posts = () => {
                       }
                       alt="Avatar"
                     /> */}
-                      <small className="text-muted">
-                        {moment(+post.createdAt).fromNow()}
-                      </small>
-                      <br />
-                      <small className="text-muted font-italic">
-                        {` - By ${post.creator}`}
-                      </small>
+                    <small className="text-muted">
+                      {moment(+post.createdAt).fromNow()}
+                    </small>
+                    <br />
+                    <small className="text-muted font-italic">
+                      {` - By ${post.creator}`}
+                    </small>
 
-                      <div
-                        style={{
-                          display: "flex",
-                          flexDirection: "row",
-                          justifyContent: "flex-end",
-                          marginTop: "1px",
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "flex-end",
+                        marginTop: "1px",
+                      }}
+                    >
+                      {!isLoading
+                        ? post.creator === user.nickname && (
+                            <>
+                              <Button
+                                variant="outline-primary"
+                                className="mr-2"
+                                onClick={() => setModalShow(true)}
+                              >
+                                <Pencil />
+                              </Button>
+                              <Button
+                                variant="outline-danger"
+                                className="mr-2"
+                                onClick={() => {
+                                  setCurrentId(post._id);
+                                  dispatch(deletePost(post._id));
+                                }}
+                              >
+                                <Trash />
+                              </Button>
+                            </>
+                          )
+                        : ""}
+
+                      <Button
+                        variant={
+                          !isLoading
+                            ? post.likes.includes(user.email)
+                              ? "info"
+                              : "outline-info"
+                            : ""
+                        }
+                        onClick={() => {
+                          const c_post = {
+                            id: post._id,
+                            email: user.email,
+                          };
+                          dispatch(likePost(c_post));
+
+                          // setLiked(!liked);
+                          // if (!liked) {
+                          // const c_post = {
+                          //   id: post._id,
+                          //   email: user.email,
+                          // };
+                          // dispatch(likePost(c_post));
+                          // } else {
+                          // }
                         }}
                       >
-                        {!isLoading
-                          ? post.creator === user.nickname && (
-                              <>
-                                <Button
-                                  variant="outline-primary"
-                                  className="mr-2"
-                                  onClick={() => setModalShow(true)}
-                                >
-                                  <Pencil />
-                                </Button>
-                                <Button
-                                  variant="outline-danger"
-                                  className="mr-2"
-                                  onClick={() => {
-                                    setCurrentId(post._id);
-                                    dispatch(deletePost(post._id));
-                                  }}
-                                >
-                                  <Trash />
-                                </Button>
-                              </>
-                            )
-                          : ""}
-
-                        <Button
-                          variant={
-                            !isLoading
-                              ? post.likes.includes(user.email)
-                                ? "info"
-                                : "outline-info"
-                              : ""
-                          }
-                          onClick={() => {
-                            const c_post = {
-                              id: post._id,
-                              email: user.email,
-                            };
-                            dispatch(likePost(c_post));
-
-                            // setLiked(!liked);
-                            // if (!liked) {
-                            // const c_post = {
-                            //   id: post._id,
-                            //   email: user.email,
-                            // };
-                            // dispatch(likePost(c_post));
-                            // } else {
-                            // }
-                          }}
-                        >
-                          <span className="mr-1">{post.likeCount}</span>
-                          <HeartFill />
-                        </Button>
-                      </div>
-                    </Card.Footer>
-                    <EditPostModal
-                      show={modalShow}
-                      onHide={() => setModalShow(false)}
-                      post={post}
-                    />
-                  </Card>
-                </div>
-              ))}
-            </div>
-          </TransitionGroup>
+                        <span className="mr-1">{post.likeCount}</span>
+                        <HeartFill />
+                      </Button>
+                    </div>
+                  </Card.Footer>
+                  <EditPostModal
+                    show={modalShow}
+                    onHide={() => setModalShow(false)}
+                    post={post}
+                  />
+                </Card>
+              </div>
+            ))}
+          </div>
         )}
       </Container>
     );
