@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const URL = "https://code-memories.herokuapp.com/posts";
+// const URL = "https://code-memories.herokuapp.com/posts";
+const URL = `${process.env.REACT_APP_HOST}/posts`;
 export const fetchPosts = async () => await axios.get(URL);
 export const createPost = async (newPost) => await axios.post(URL, newPost);
 export const updatePost = async (postId, updatedPost) =>

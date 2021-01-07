@@ -1,9 +1,14 @@
 import * as api from "../../api";
+// import { useAuth0 } from "@auth0/auth0-react";
+// import axios from "axios";
 
 //* Action Creators
 
 export const getPosts = () => async (dispatch) => {
+  // const { getAccessTokenSilently } = useAuth0();
+  // const token = await getAccessTokenSilently();
   try {
+    // console.log(token);
     const { data } = await api.fetchPosts();
     dispatch({
       type: "FETCH_ALL",

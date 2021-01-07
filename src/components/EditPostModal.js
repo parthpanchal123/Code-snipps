@@ -1,7 +1,6 @@
 import React from "react";
 import { Modal, Button } from "react-bootstrap";
 import Form from "./Form";
-
 const EditPostModal = (props) => {
   return (
     <Modal

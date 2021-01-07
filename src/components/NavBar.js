@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
-import { PencilFill, BoxArrowRight } from "react-bootstrap-icons";
+import "../index.css";
+import { PencilFill, BoxArrowRight, List } from "react-bootstrap-icons";
 import code from "../assets/code.png";
 
 export const NavBar = () => {
+  const [collapsed, setCollapsed] = useState("false");
   const { logout, isAuthenticated } = useAuth0();
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -17,33 +19,46 @@ export const NavBar = () => {
           height="30"
           className="d-inline-block align-bottom"
         />
-        <a className="navbar-brand ml-2" href="/">
+
+        <Link className="navbar-brand ml-2" to="/">
           Code-snipps
-        </a>
+        </Link>
         {isAuthenticated ? (
           <>
             <button
               className="navbar-toggler"
+              id="menu_button"
               type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#navbarSupportedContent"
-              aria-controls="navbarSupportedContent"
-              aria-expanded="false"
-              aria-label="Toggle navigation"
+              aria-controls={"navbarSupportedContent"}
+              aria-label={"Toggle navigation"}
+              style={{ margin: "0" }}
+              onClick={() => setCollapsed(!collapsed)}
             >
-              <span className="navbar-toggler-icon"></span>
+              <span>
+                <List />
+              </span>
             </button>
             <div
-              className="collapse navbar-collapse"
-              id="navbarSupportedContent"
+              className={`collapse navbar-collapse  ${
+                collapsed ? "hide" : "show"
+              }`}
+              id={"navbarSupportedContent"}
             >
-              <Nav className="ml-auto mt-2 ">
-                <Link className="nav-link" to="/addNewMemory">
+              <Nav className="ml-auto mt-2 " id={"mobileNav"}>
+                <Link
+                  className="nav-link"
+                  to="/addNewMemory"
+                  onClick={() => setCollapsed(!collapsed)}
+                >
                   Create a Code-snipp
                   <PencilFill className="ml-2" />
                 </Link>
 
-                <Link className="nav-link " onClick={() => logout()}>
+                <Link
+                  className="nav-link "
+                  to="/login"
+                  onClick={() => logout()}
+                >
                   LogOut
                   <BoxArrowRight className="ml-2" />
                 </Link>
@@ -51,7 +66,7 @@ export const NavBar = () => {
             </div>
           </>
         ) : (
-          <span></span>
+          <div></div>
         )}
       </div>
     </nav>
