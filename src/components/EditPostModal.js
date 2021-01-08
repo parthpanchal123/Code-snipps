@@ -5,14 +5,14 @@ const EditPostModal = (props) => {
   return (
     <Modal
       {...props}
-      size="lg"
+      size="md"
       aria-labelledby="contained-modal-title-vcenter"
       centered
       id="postModal"
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-          Edit your memory
+          Edit your snippet
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>

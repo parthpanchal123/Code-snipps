@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import "../index.css";
 import { PencilFill, BoxArrowRight, List } from "react-bootstrap-icons";
+import Fade from "react-reveal/Fade";
 import code from "../assets/code.png";
 
 export const NavBar = () => {
@@ -38,32 +39,34 @@ export const NavBar = () => {
                 <List />
               </span>
             </button>
-            <div
-              className={`collapse navbar-collapse  ${
-                collapsed ? "hide" : "show"
-              }`}
-              id={"navbarSupportedContent"}
-            >
-              <Nav className="ml-auto mt-2 " id={"mobileNav"}>
-                <Link
-                  className="nav-link"
-                  to="/addNewMemory"
-                  onClick={() => setCollapsed(!collapsed)}
-                >
-                  Create a Code-snipp
-                  <PencilFill className="ml-2" />
-                </Link>
+            <Fade>
+              <div
+                className={`collapse navbar-collapse  ${
+                  collapsed ? "hide" : "show"
+                }`}
+                id={"navbarSupportedContent"}
+              >
+                <Nav className="ml-auto mt-2 " id={"mobileNav"}>
+                  <Link
+                    className="nav-link"
+                    to="/addNewMemory"
+                    onClick={() => setCollapsed(!collapsed)}
+                  >
+                    Create a Code-snipp
+                    <PencilFill className="ml-2" />
+                  </Link>
 
-                <Link
-                  className="nav-link "
-                  to="/login"
-                  onClick={() => logout()}
-                >
-                  LogOut
-                  <BoxArrowRight className="ml-2" />
-                </Link>
-              </Nav>
-            </div>
+                  <Link
+                    className="nav-link "
+                    to="/login"
+                    onClick={() => logout()}
+                  >
+                    LogOut
+                    <BoxArrowRight className="ml-2" />
+                  </Link>
+                </Nav>
+              </div>
+            </Fade>
           </>
         ) : (
           <div></div>

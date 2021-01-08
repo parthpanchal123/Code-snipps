@@ -12,20 +12,21 @@ import { Redirect } from "react-router-dom";
 import dotenv from "dotenv";
 import "../index.css";
 import HashLoader from "react-spinners/HashLoader";
-import TransitionGroup from "react-transition-group/TransitionGroup";
+import NotificationSystem from "react-notification-system";
 import axios from "axios";
 
 dotenv.config();
 
 const Posts = () => {
   const { user, isAuthenticated, isLoading } = useAuth0();
-  // const token = await getAccessTokenSilently();
-
+  const notificationSystem = React.createRef();
   const [modalShow, setModalShow] = useState(false);
   const [token, setToken] = useState("");
   const dispatch = useDispatch();
   const posts = useSelector((state) => state.posts);
   const [postId, setCurrentId] = useState("");
+
+  console.log(user);
 
   const getToken = async () => {
     const body = {
@@ -68,20 +69,18 @@ const Posts = () => {
     return (
       <Container className="container-md ">
         {!posts.length ? (
-          <TransitionGroup>
-            <Container
-              className="text-center"
-              style={{
-                marginTop: "20%",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
-              <HashLoader />
-              <small className="mt-2">Loading Snipps ...</small>
-            </Container>
-          </TransitionGroup>
+          <Container
+            className="text-center"
+            style={{
+              marginTop: "20%",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <HashLoader />
+            <small className="mt-2">Loading Snipps ...</small>
+          </Container>
         ) : (
           <div
             style={{
@@ -109,28 +108,40 @@ const Posts = () => {
                   </div>
 
                   <Card.Body>
-                    <Card.Text style={{ fontWeight: "500" }}>
-                      {post.tags}
+                    <Card.Text
+                      style={{
+                        color: "white",
+                      }}
+                    >
+                      {post.tags.map((tag) => (
+                        <span
+                          class="badge rounded-pill bg-secondary mr-1"
+                          style={{ fontWeight: "500" }}
+                        >
+                          {tag}
+                        </span>
+                      ))}
                     </Card.Text>
 
                     <Card.Title>{post.title}</Card.Title>
                     <Card.Text>{post.message}</Card.Text>
                   </Card.Body>
                   <Card.Footer>
-                    {/* <img
-                      src={
-                        !isLoading
-                          ? user.gravatar
-                          : "https://www.w3schools.com/howto/img_avatar.png"
-                      }
-                      alt="Avatar"
-                    /> */}
-                    <small className="text-muted">
-                      {moment(+post.createdAt).fromNow()}
-                    </small>
-                    <br />
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "flex-start",
+                      }}
+                    >
+                      {" "}
+                    </div>
                     <small className="text-muted font-italic">
                       {` - By ${post.creator}`}
+                    </small>
+                    <br />
+                    <small className="text-muted">
+                      {moment(+post.createdAt).fromNow()}
                     </small>
 
                     <div
@@ -156,6 +167,18 @@ const Posts = () => {
                                 className="mr-2"
                                 onClick={() => {
                                   setCurrentId(post._id);
+                                  const notification =
+                                    notificationSystem.current;
+                                  notification.addNotification({
+                                    level: "success",
+                                    autoDismiss: 5,
+                                    position: "br",
+                                    children: (
+                                      <div>
+                                        <h6>Post deleted successfully!</h6>
+                                      </div>
+                                    ),
+                                  });
                                   dispatch(deletePost(post._id));
                                 }}
                               >
@@ -179,16 +202,6 @@ const Posts = () => {
                             email: user.email,
                           };
                           dispatch(likePost(c_post));
-
-                          // setLiked(!liked);
-                          // if (!liked) {
-                          // const c_post = {
-                          //   id: post._id,
-                          //   email: user.email,
-                          // };
-                          // dispatch(likePost(c_post));
-                          // } else {
-                          // }
                         }}
                       >
                         <span className="mr-1">{post.likeCount}</span>
@@ -201,6 +214,7 @@ const Posts = () => {
                     onHide={() => setModalShow(false)}
                     post={post}
                   />
+                  <NotificationSystem ref={notificationSystem} />
                 </Card>
               </div>
             ))}

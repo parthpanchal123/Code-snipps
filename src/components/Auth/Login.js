@@ -1,6 +1,6 @@
 import React from "react";
 import { Container, Button } from "react-bootstrap";
-import Programmer from "../../assets/programmer.gif";
+import Programmer from "../../assets/developer.gif";
 import { useAuth0 } from "@auth0/auth0-react";
 import Zoom from "react-reveal/Zoom";
 import { Redirect } from "react-router";
@@ -14,15 +14,11 @@ const Login = () => {
 
   return !user ? (
     <>
-      <Container
-        className="text-center mt-4"
-        id={"fade-in"}
-        // style={{ height: "100vh" }}
-      >
+      <Container className="text-center mt-4" id={"fade-in"}>
         <Zoom>
-          <img src={Programmer} alt={"Programmer"} style={{ width: "40%" }} />
+          <img src={Programmer} alt="Programmer" style={{ width: "45%" }} />
         </Zoom>
-        <h3 className="mt-5 mb-4 sm">
+        <h3 className="mt-2 mb-4 sm">
           {" "}
           Share your favorite code snippets 😄 with all other fellow developers
           😎{" "}
@@ -40,7 +36,9 @@ const Login = () => {
           Get Started !
         </Button>
 
-        <h6 className="mb-4"><i>How it works ?</i></h6>
+        <h6 className="mb-4">
+          <i>How it works ?</i>
+        </h6>
         <StepperComponent />
       </Container>
 
