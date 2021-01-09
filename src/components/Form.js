@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import FileBase from "react-file-base64";
 import { createPost, updatePost } from "../redux/actions/posts";
-import { Button, Container, Form, Alert } from "react-bootstrap";
+import { Button, Container, Form } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import NotificationSystem from "react-notification-system";
 import { Redirect } from "react-router-dom";
