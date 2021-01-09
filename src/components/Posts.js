@@ -25,6 +25,7 @@ const Posts = () => {
   const dispatch = useDispatch();
   const posts = useSelector((state) => state.posts);
   const [postId, setCurrentId] = useState("");
+  const [editPostId, setEditPostId] = useState("");
 
   console.log(user);
 
@@ -61,7 +62,7 @@ const Posts = () => {
       setCurrentId("");
     }
     dispatch(getPosts());
-  }, [dispatch, postId, isAuthenticated, user, isLoading, token]);
+  }, [dispatch, isAuthenticated, user, isLoading, postId]);
 
   if (!isAuthenticated && !isLoading) {
     return <Redirect to="/login" />;
@@ -159,7 +160,10 @@ const Posts = () => {
                               <Button
                                 variant="outline-primary"
                                 className="mr-2"
-                                onClick={() => setModalShow(true)}
+                                onClick={() => {
+                                  setEditPostId(post._id);
+                                  setModalShow(true);
+                                }}
                               >
                                 <Pencil />
                               </Button>
@@ -181,6 +185,7 @@ const Posts = () => {
                                     ),
                                   });
                                   dispatch(deletePost(post._id));
+                                  // setCurrentId("");
                                 }}
                               >
                                 <Trash />
@@ -210,11 +215,14 @@ const Posts = () => {
                       </Button>
                     </div>
                   </Card.Footer>
-                  <EditPostModal
-                    show={modalShow}
-                    onHide={() => setModalShow(false)}
-                    post={post}
-                  />
+                  {editPostId === post._id && (
+                    <EditPostModal
+                      show={modalShow}
+                      onHide={() => setModalShow(false)}
+                      post={post}
+                    />
+                  )}
+
                   <NotificationSystem ref={notificationSystem} />
                 </Card>
               </div>

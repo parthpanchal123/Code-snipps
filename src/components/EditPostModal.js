@@ -16,7 +16,12 @@ const EditPostModal = (props) => {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form isFromModal={true} post={props.post} onHide={props.onHide} />
+        <Form
+          isFromModal={true}
+          post={props.post}
+          title={props.title}
+          onHide={props.onHide}
+        />
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={props.onHide}>Close</Button>
