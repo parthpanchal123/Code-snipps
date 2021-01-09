@@ -21,7 +21,6 @@ const Posts = () => {
   const { user, isAuthenticated, isLoading } = useAuth0();
   const notificationSystem = React.createRef();
   const [modalShow, setModalShow] = useState(false);
-  const [token, setToken] = useState("");
   const dispatch = useDispatch();
   const posts = useSelector((state) => state.posts);
   const [postId, setCurrentId] = useState("");
@@ -49,10 +48,8 @@ const Posts = () => {
 
       const { access_token } = jsonData.data;
       axios.defaults.headers.common["Authorization"] = `Bearer ${access_token}`;
-      setToken(access_token);
     } catch (e) {
       console.log(e.message);
-      setToken("");
     }
   };
 
