@@ -98,6 +98,7 @@ const Posts = () => {
                   style={{ width: "20rem", margin: "10px" }}
                   className="shadow p-0 mb-5 bg-white rounded"
                   id={"fade-in"}
+                  key={post._id}
                 >
                   <div className="text-center" id={"imgdiv"}>
                     <ModalImage
@@ -115,7 +116,7 @@ const Posts = () => {
                     >
                       {post.tags.map((tag) => (
                         <span
-                          class="badge rounded-pill bg-secondary mr-1"
+                          className="badge rounded-pill bg-secondary mr-1"
                           style={{ fontWeight: "500" }}
                         >
                           {tag}
