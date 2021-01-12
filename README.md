@@ -1,4 +1,35 @@
-# Getting Started with Create React App
+# Code-snipps ⚡
+[![Netlify Status](https://api.netlify.com/api/v1/badges/595a14f4-fefc-473f-9d11-ae2d8049db20/deploy-status)](https://app.netlify.com/sites/code-snipps/deploys)
+
+
+Got  some cool code snippets that you want to show-off ? 😏 . Well , than share it with other Devs and spread knowledge 🥳 . PS : Snippets are so cool 😎
+Do ⭐ the repo if ypu like what you see 🙂
+
+## Tech used
+- ✨ [Auth0](https://auth0.com "Auth0") for Authentication and Authorization.
+- ✨ ReactJS for the front-end .
+- ✨ Redux for state management .
+- ✨ ExpressJS for API routes.
+- ✨[React-bootstrap](https://react-bootstrap.github.io/) for styling .
+- ✨ Front-end deployed on Netlify 🚀
+- ✨ Back-end API deployed on Heroku 🚀
+
+## Screenshots
+
+- Login Page
+
+![Imgur](https://i.imgur.com/BNLA1P2.png)
+
+- Homescreen
+
+![Homescreen](https://i.imgur.com/VlLnRQ4.png)
+
+- Create Post screen
+
+![Login](https://i.imgur.com/x2TQDMZ.png)
+
+
+## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
