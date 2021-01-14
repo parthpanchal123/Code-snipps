@@ -47,6 +47,7 @@ const Posts = () => {
       );
 
       const { access_token } = jsonData.data;
+      await dispatch(getPosts());
       axios.defaults.headers.common["Authorization"] = `Bearer ${access_token}`;
     } catch (e) {
       console.log(e.message);
