@@ -195,7 +195,7 @@ const Posts = () => {
                       <Button
                         variant={
                           !isLoading
-                            ? post.likes.includes(user.email)
+                            ? post?.likes?.includes(user.email)
                               ? "info"
                               : "outline-info"
                             : ""
